@@ -1,0 +1,40 @@
+cabal-version: 2.2
+
+name:                whitespace
+version:             0.1.0.0
+synopsis:            Problem with white space
+-- description:
+homepage:            https://github.com/piyush-kurur/backpack
+license:             BSD-3-Clause
+license-file:        LICENSE
+author:              Piyush P Kurur
+maintainer:          ppk@cse.iitk.ac.in
+-- copyright:
+-- category:
+build-type:          Simple
+extra-source-files:  ChangeLog.md
+
+
+common defaults
+  default-language: Haskell2010
+  ghc-options: -Wall
+  build-depends: base                    >= 4.7  &&  < 4.12
+
+library whitespace-indef
+  import: defaults
+  hs-source-dirs: indef
+  signatures: Abstract
+  exposed-modules: Util
+
+library whitespace-concrete
+  import: defaults
+  hs-source-dirs: concrete
+  exposed-modules: Concrete
+
+library
+  import: defaults
+  build-depends: whitespace-indef, whitespace-concrete
+  hs-source-dirs: src
+  reexported-modules: WhiteSpace.Util
+  mixins: whitespace-indef (Util as WhiteSpace.Util)
+             requires   ( Abstract as Concrete)
