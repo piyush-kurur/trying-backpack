@@ -1,0 +1,4 @@
+Error:
+    Non-library component has unfilled requirements: Foo
+    In the stanza 'test-suite test'
+    In the inplace package 'testcases-0.1.0.0'
