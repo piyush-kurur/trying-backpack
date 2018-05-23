@@ -1,0 +1,43 @@
+cabal-version: 2.2
+
+name:                testcases
+version:             0.1.0.0
+synopsis:            Backpack with test-suites
+homepage:            https://github.com/piyush-kurur/trying-backpack/
+license:             BSD-3-Clause
+license-file:        LICENSE
+author:              Piyush P Kurur
+maintainer:          ppk@cse.iitk.ac.in
+-- copyright:
+category:            Testing
+build-type:          Simple
+extra-source-files:  ChangeLog.md
+
+common defaults
+  build-depends: base >=4.9 && < 4.12
+  default-language: Haskell2010
+  ghc-options: -Wall
+
+library indef
+  import: defaults
+  hs-source-dirs: indef
+  signatures: Foo
+  exposed-modules: Bar
+
+library concrete
+  import: defaults
+  hs-source-dirs: concrete
+  exposed-modules: FooInstance
+
+library
+  import: defaults
+  build-depends: indef
+               , concrete
+  mixin: indef (Bar as IntBar) requires (Foo as FooInstance)
+
+test-suite test
+  build-depends: testcases
+  import: defaults
+  type: exitcode-stdio-1.0
+  hs-source-dirs: test
+  main-is: Main.hs

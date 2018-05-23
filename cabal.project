@@ -1,1 +1,2 @@
-packages: whitespace
+packages: whitespace/
+	  testcases/
