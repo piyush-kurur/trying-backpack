@@ -37,4 +37,5 @@ library
   hs-source-dirs: src
   reexported-modules: WhiteSpace.Util
   mixins: whitespace-indef (Util as WhiteSpace.Util)
-             requires   ( Abstract as Concrete)
+             requires   (Abstract as Concrete)
+             -- requires   ( Abstract as Concrete) -- The extra space after parenthesis trips backpack
