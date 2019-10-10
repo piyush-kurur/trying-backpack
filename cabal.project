@@ -1,2 +1,1 @@
-packages: whitespace/
-	  testcases/
+packages: chained-instances
