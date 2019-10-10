@@ -1,0 +1,38 @@
+cabal-version: 3.0
+
+name: chained-instances
+version: 0.0.1
+synopsis: Problem with KnownNat constraints
+build-type:    Simple
+
+common defaults
+  default-language: Haskell2010
+  ghc-options: -Wall
+  build-depends: base                    >= 4.11 &&  < 4.14
+
+library derived
+  import: defaults
+  hs-source-dirs: derived
+  signatures: B
+  exposed-modules: Derived
+
+library client
+  import: defaults
+  hs-source-dirs: client
+  signatures: A
+  exposed-modules: Client
+
+library concrete
+  import: defaults
+  hs-source-dirs: concrete
+  exposed-modules: Concrete
+
+
+library junction
+  import: defaults
+  visibility: public
+  build-depends: client
+               , derived
+  reexported-modules: Junction.Client
+  mixins: derived (Derived as Junction.Derived) requires (B as Concrete)
+        , client (Client as Junction.Client) requires (A as Junction.Derived)

@@ -1,0 +1,6 @@
+signature B where
+
+data T
+instance Show T
+
+example :: T
