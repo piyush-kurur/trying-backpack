@@ -1,6 +1,6 @@
 signature B where
 
-data T
-instance Show T
+data BT
+instance Show BT
 
-example :: T
+example :: BT

@@ -1,6 +1,6 @@
 signature A where
 
-data MyT
-instance Show MyT
+data AT
+instance Show AT
 
-example :: MyT
+example :: AT

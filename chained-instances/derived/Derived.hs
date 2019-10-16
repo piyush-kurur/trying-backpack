@@ -1,5 +1,5 @@
-module Derived ( MyT, example) where
+module Derived ( AT, example) where
 
 import B
 
-type MyT = T
+type AT = BT
