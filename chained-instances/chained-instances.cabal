@@ -2,7 +2,16 @@ cabal-version: 3.0
 
 name: chained-instances
 version: 0.0.1
-synopsis: Problem with KnownNat constraints
+synopsis: Chaining dependencies through re-export.
+
+description: Consider a signature A with a type AT and a constraint
+  say Show AT.  The Derived module imports a module with signature B
+  (which has BT and the constraint show BT) and produces an instance
+  of A by just type aliasing BT as AT. Therefore when we mixin a
+  instance of B say Concrete with Derived, we should be getting an
+  instance of A. However, as this example demonstrates, it seems while
+  compiling the Show constraint is not being met.
+
 build-type:    Simple
 
 common defaults
