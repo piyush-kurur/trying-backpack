@@ -1,3 +1,6 @@
 module Concrete where
 
-data T = T deriving Show
+data BT = BT deriving Show
+
+example :: BT
+example = BT
