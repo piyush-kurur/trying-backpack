@@ -1,0 +1,48 @@
+unit derived where
+
+   signature B where
+
+      data BT
+      instance Show BT
+
+      example :: BT
+
+
+   module Derived ( AT, example) where
+      import B
+      type AT = BT
+
+unit concrete where
+
+   module Concrete where
+
+      data BT = BT deriving Show
+
+      example :: BT
+      example = BT
+
+unit client where
+
+   signature A where
+
+      data AT
+      instance Show AT
+      example :: AT
+
+   module Client (value) where
+
+      import A
+
+      value :: String
+      value  = show example
+
+unit junction where
+   dependency concrete
+   dependency derived[B=<Concrete>] (Derived as Junction.Derived)
+   dependency client [A=<Junction.Derived>]  (Client as Junction.Client)
+
+   module Main where
+     import Junction.Client
+
+     main :: IO ()
+     main = putStrLn value
