@@ -1,4 +1,4 @@
-module Client (value) where
+module AInterface (value) where
 
 import A
 

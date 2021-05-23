@@ -1,4 +1,4 @@
-module Concrete where
+module ConcreteB where
 
 data BT = BT deriving Show
 

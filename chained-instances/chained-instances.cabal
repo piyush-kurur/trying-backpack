@@ -4,7 +4,9 @@ name: chained-instances
 version: 0.0.1
 synopsis: Chaining dependencies through re-export.
 
-description: Consider a signature A with a type AT and a constraint
+description:
+  The main library wants to provide A
+  Consider a signature A with a type AT and a constraint
   say Show AT.  The Derived module imports a module with signature B
   (which has BT and the constraint show BT) and produces an instance
   of A by just type aliasing BT as AT. Therefore when we mixin a
@@ -12,36 +14,41 @@ description: Consider a signature A with a type AT and a constraint
   instance of A. However, as this example demonstrates, it seems while
   compiling the Show constraint is not being met.
 
+
 build-type:    Simple
 
 common defaults
   default-language: Haskell2010
   ghc-options: -Wall
-  build-depends: base                    >= 4.11 &&  < 4.14
+  build-depends: base                    >= 4.11 &&  < 4.16
 
-library derived
+-- Library provides AInterface which requires an instance of A
+-- signature. The package B gives a way to get a module with signature
+-- A from any module with signature B. C provides a concrete
+-- implementation of B.
+
+library
   import: defaults
-  hs-source-dirs: derived
+  build-depends: A
+               , B
+               , C
+  reexported-modules: MainAInterface
+  mixins: B (AFromB as MainA) requires (B as ConcreteB)
+        , A (AInterface as MainAInterface) requires (A as MainA)
+
+library B
+  import: defaults
+  hs-source-dirs: B
   signatures: B
-  exposed-modules: Derived
+  exposed-modules: AFromB
 
-library client
+library A
   import: defaults
-  hs-source-dirs: client
+  hs-source-dirs: A
   signatures: A
-  exposed-modules: Client
+  exposed-modules: AInterface
 
-library concrete
+library C
   import: defaults
-  hs-source-dirs: concrete
-  exposed-modules: Concrete
-
-
-library junction
-  import: defaults
-  visibility: public
-  build-depends: client
-               , derived
-  reexported-modules: Junction.Client
-  mixins: derived (Derived as Junction.Derived) requires (B as Concrete)
-        , client (Client as Junction.Client) requires (A as Junction.Derived)
+  hs-source-dirs: C
+  exposed-modules: ConcreteB
